@@ -2,12 +2,19 @@
   "name": "design-first",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "build" : "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "test": "mocha --require ts-node/register test/**/*.ts",
     "pretty": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -20,7 +27,9 @@
     "type": "git",
     "url": "git+https://github.com/adam-hanna/design-first.git"
   },
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "keywords": [],
   "author": "Adam Hanna <ahanna@mba2016.hbs.edu>",
   "license": "MIT",
@@ -29,10 +38,15 @@
   },
   "homepage": "https://github.com/adam-hanna/design-first#readme",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
     "husky": "^3.0.0",
     "lint-staged": "^9.1.0",
+    "mocha": "^6.1.4",
     "prettier": "^1.18.2",
     "source-map-support": "^0.5.12",
+    "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.2"
