@@ -15,6 +15,7 @@
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags",
+    "tar": "(cd base && tar -zcvf ../src/files/base.tar.gz ./)",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -30,7 +31,11 @@
   "files": [
     "lib/**/*"
   ],
-  "keywords": [],
+  "keywords": [
+    "api",
+    "rest",
+    "typescript"
+  ],
   "author": "Adam Hanna <ahanna@mba2016.hbs.edu>",
   "license": "MIT",
   "bugs": {
@@ -39,7 +44,10 @@
   "homepage": "https://github.com/adam-hanna/design-first#readme",
   "devDependencies": {
     "@types/chai": "^4.1.7",
+    "@types/chalk": "^2.2.0",
     "@types/mocha": "^5.2.7",
+    "@types/node-emoji": "^1.8.1",
+    "@types/tar": "^4.0.3",
     "chai": "^4.2.0",
     "husky": "^3.0.0",
     "lint-staged": "^9.1.0",
@@ -50,5 +58,13 @@
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "@types/yargs": "^13.0.2",
+    "chalk": "^2.4.2",
+    "detect-emoji-support": "^0.1.6",
+    "node-emoji": "^1.10.0",
+    "tar": "^4.4.10",
+    "yargs": "^13.3.0"
   }
 }
