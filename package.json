@@ -46,8 +46,10 @@
     "@types/chai": "^4.1.7",
     "@types/chalk": "^2.2.0",
     "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.9",
     "@types/node-emoji": "^1.8.1",
     "@types/tar": "^4.0.3",
+    "@types/uuid": "^3.4.5",
     "chai": "^4.2.0",
     "husky": "^3.0.0",
     "lint-staged": "^9.1.0",
@@ -63,8 +65,11 @@
     "@types/yargs": "^13.0.2",
     "chalk": "^2.4.2",
     "detect-emoji-support": "^0.1.6",
+    "js-yaml": "^3.13.1",
     "node-emoji": "^1.10.0",
+    "ora": "^3.4.0",
     "tar": "^4.4.10",
+    "uuid": "^3.3.2",
     "yargs": "^13.3.0"
   }
 }

@@ -1,3 +1,9 @@
+/**
+ * DO NOT EDIT
+ * AUTO-GENERATED FILE
+ * This file was generated with 'design-first'
+ */
+
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { plainToClass } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';

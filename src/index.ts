@@ -25,7 +25,7 @@ require('yargs')
       yargs.positional('file', {
         describe: 'Optional design file location',
         type: 'string',
-        default: 'design.yaml'
+        default: 'design.json'
       });
     },
     handler: genHandler

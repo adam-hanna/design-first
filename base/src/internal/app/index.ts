@@ -1,3 +1,9 @@
+/**
+ * DO NOT EDIT
+ * AUTO-GENERATED FILE
+ * This file was generated with 'design-first'
+ */
+
 import express from 'express';
 import compression from 'compression';
 import bodyParser from 'body-parser';

@@ -23,7 +23,7 @@ const genPkg = (name: string): string => {
   return `{
   "name": "${name}",
   "version": "0.0.1",
-  "description": "A rest api",
+  "description": "A well-designed REST api",
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
@@ -55,22 +55,120 @@ const genPkg = (name: string): string => {
 }`;
 };
 
+const genDesignExample = (name: string): string => {
+  return `{
+  "api": {
+    "name": "${name}",
+    "description": "A well-designed REST api",
+    "baseURL": "",
+    "version": "0.0.1"
+  },
+  "services": [
+    {
+      "name": "foos",
+      "path": "/foos",
+      "description": "",
+      "actions": [
+        {
+          "name": "show",
+          "description": "",
+          "method": "GET",
+          "path": "/:fooID",
+          "payload": "ShowFoo",
+          "response": "Foo"
+        },
+        {
+          "name": "list",
+          "description": "",
+          "method": "GET",
+          "path": "",
+          "payload": "ListFoos",
+          "response": "Foos"
+        },
+        {
+          "name": "update",
+          "description": "",
+          "method": "PUT",
+          "path": "/:fooID",
+          "payload": "UpdateFoo",
+          "response": "Foo"
+        },
+        {
+          "name": "create",
+          "description": "",
+          "method": "POST",
+          "path": "",
+          "payload": "CreateFoo",
+          "response": "Foo"
+        },
+        {
+          "name": "delete",
+          "description": "",
+          "method": "DELETE",
+          "path": "/:fooID"
+        }
+      ]
+    },
+    {
+      "name": "bars",
+      "description": "",
+      "path": "/bars",
+      "actions": [
+        {
+          "name": "show",
+          "description": "",
+          "method": "GET",
+          "path": "/:barID",
+          "payload": "ShowBar",
+          "response": "Boo"
+        },
+        {
+          "name": "list",
+          "description": "",
+          "method": "GET",
+          "path": "",
+          "payload": "ListBars",
+          "response": "Bars"
+        },
+        {
+          "name": "update",
+          "description": "",
+          "method": "PUT",
+          "path": "/:barID",
+          "payload": "UpdateBar",
+          "response": "Bar"
+        },
+        {
+          "name": "create",
+          "description": "",
+          "method": "POST",
+          "path": "",
+          "payload": "CreateBar",
+          "response": "Bar"
+        },
+        {
+          "name": "delete",
+          "description": "",
+          "method": "DELETE",
+          "path": "/:barID"
+        }
+      ]
+    }
+  ]
+}`;
+};
+
 export const handler = async (args: argv): Promise<void> => {
-  let created: boolean = false;
   const dir: string = process.env.PWD + '/' + args.name;
 
   try {
-    if (await existsSync(dir)) {
-      console.log(
-        directoryExistsErr(args.name),
-        emojiSupport() ? ' ' + getEmoji('ghost') : '.'
-      );
-      process.exit(1);
-    }
+    // 1. check if the directory already exists
+    if (await existsSync(dir)) throw directoryExistsErr(args.name);
 
+    // 2. create the directory
     await mkdirSync(dir);
-    created = true;
 
+    // 3. extract the files into the newly created directory
     await extractTar({
       strict: true,
       file: resolve(__dirname, '../../files/base.tar.gz'),
@@ -78,20 +176,32 @@ export const handler = async (args: argv): Promise<void> => {
       sync: true
     });
 
+    // 4. create the package.json file
     await writeFileSync(dir + '/package.json', genPkg(args.name));
 
+    // 5. create the design.example.json file
+    await writeFileSync(
+      dir + '/design.example.json',
+      genDesignExample(args.name)
+    );
+
+    // 6. all done!
     console.log(
       successMsg(args.name),
       emojiSupport() ? ' ' + getEmoji('sunglasses') : '.'
     );
   } catch (e) {
-    if (created) rmdirSync(dir);
+    try {
+      if (await existsSync(dir)) rmdirSync(dir);
+    } catch (e2) {}
 
     console.log(
       chalk.bold.red('ERROR: '),
       chalk.red(`could not create ${args.name}`),
       emojiSupport() ? ' ' + getEmoji('ghost') + ' ' : '. ',
-      e
+      chalk.red(e)
     );
+
+    process.exit(1);
   }
 };
