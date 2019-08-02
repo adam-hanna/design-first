@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import chalk from 'chalk';
 import Service from '../types/design/service';
 import Action from '../types/design/action';
@@ -42,7 +42,7 @@ export const genRouteAuthentication = (
 ): string => {
   return `import { Request, Response } from 'express';
 import appContext from '../../../context/app';
-import routeContext from '../../../context/route/${actionPath}';
+import requestContext from '../../../context/request/${actionPath}';
 import { HttpReturn } from '../../../internal/utils';
 ${
   action.payload
@@ -52,7 +52,7 @@ ${
 }
 export default async (
   appCtx: appContext,
-  routeCtx: routeContext,${
+  requestCtx: requestContext,${
     action.payload
       ? `
   payload: ${action.payload},`

@@ -14,11 +14,11 @@ export const genRouteAction = (service: Service, action: Action): string => {
 import { Request, Response } from 'express';
 import app from '../../../app';
 import appContext from '../../../../context/app';
-import routeContext from '../../../../context/route/${actionPath}';
+import requestContext from '../../../../context/request/${actionPath}';
 import { Validate, HttpReturn } from '../../../utils';
 import authenticate from '../../../../authentication/${actionPath}';
 import authorize from '../../../../authorization/${actionPath}';
-import { Result, Handler } from '../../../../handlers/${actionPath}';
+import { Handler } from '../../../../handlers/${actionPath}';
 ${
   action.payload
     ? `import { ${action.payload} } from '../../../../models';
@@ -27,7 +27,7 @@ ${
 }
 export default async (req: Request, res: Response): Promise<void> => {
   const appCtx: appContext = app.get('context');
-  const routeCtx: routeContext = new routeContext();
+  const requestCtx: requestContext = new requestContext();
   ${
     action.payload
       ? `
@@ -41,7 +41,7 @@ export default async (req: Request, res: Response): Promise<void> => {
 `
       : ''
   }
-  const authenticationErr: HttpReturn | void = await authenticate(appCtx, routeCtx, ${
+  const authenticationErr: HttpReturn | void = await authenticate(appCtx, requestCtx, ${
     action.payload ? 'payload, ' : ''
   }req, res);
   if (authenticationErr) {
@@ -49,7 +49,7 @@ export default async (req: Request, res: Response): Promise<void> => {
     return
   }
 
-  const authorizationErr: HttpReturn | void = await authorize(appCtx, routeCtx, ${
+  const authorizationErr: HttpReturn | void = await authorize(appCtx, requestCtx, ${
     action.payload ? 'payload, ' : ''
   }req, res)
   if (authorizationErr) {
@@ -57,7 +57,7 @@ export default async (req: Request, res: Response): Promise<void> => {
     return
   }
 
-  const result: Result | HttpReturn = await Handler(appCtx, routeCtx${
+  const result: HttpReturn = await Handler(appCtx, requestCtx${
     action.payload ? ', payload' : ''
   })
   res.status(result.status).send(result.body);
@@ -75,37 +75,51 @@ import { Router } from 'express';
 
 // Middlewares
 import DefaultAppMiddleware from '../../middleware/app';
-${services.map(service =>
-  service.actions.map(
-    action => `import ${capitalize(service.name)}${capitalize(
-      action.name
-    )}Middleware from '../../middleware/${service.name.toLowerCase()}/${action.name.toLowerCase()}';}
+${services
+  .map(service =>
+    service.actions
+      .map(
+        action => `import ${capitalize(service.name)}${capitalize(
+          action.name
+        )}Middleware from '../../middleware/${service.name.toLowerCase()}/${action.name.toLowerCase()}';
 `
+      )
+      .join('')
   )
-)}
+  .join('')}
 
 // Handlers
-${services.map(service =>
-  service.actions.map(
-    action => `import ${capitalize(service.name)}${capitalize(
-      action.name
-    )}Handler from './${service.name.toLowerCase()}/${action.name.toLowerCase()}';}
+${services
+  .map(service =>
+    service.actions
+      .map(
+        action => `import ${capitalize(service.name)}${capitalize(
+          action.name
+        )}Handler from './${service.name.toLowerCase()}/${action.name.toLowerCase()}';
 `
+      )
+      .join('')
   )
-)}
+  .join('')}
 
 // Routes
 const router: Router = Router();
-${services.map(service =>
-  service.actions.map(
-    action => `router.${action.method.toLowerCase()}('${service.path}${
-      action.path
-    }', DefaultAppMiddleware, ${capitalize(service.name)}${capitalize(
-      action.name
-    )}Middleware, ${capitalize(service.name)}${capitalize(action.name)}Handler);
+${services
+  .map(service =>
+    service.actions
+      .map(
+        action => `router.${action.method.toLowerCase()}('${service.path}${
+          action.path
+        }', DefaultAppMiddleware, ${capitalize(service.name)}${capitalize(
+          action.name
+        )}Middleware, ${capitalize(service.name)}${capitalize(
+          action.name
+        )}Handler);
 `
+      )
+      .join('')
   )
-)}
+  .join('')}
 
 export default router`;
 };

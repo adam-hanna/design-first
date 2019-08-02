@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import chalk from 'chalk';
 import Service from '../types/design/service';
 import Action from '../types/design/action';
@@ -43,7 +43,7 @@ export const genRouteHandler = (
 ): string => {
   return `import appContext from '../../../context/app';
 import { HttpReturn } from '../../../internal/utils';
-import routeContext from '../../../context/route/${service.name.toLowerCase()}/{action.name.toLowerCase()}';
+import requestContext from '../../../context/request/${service.name.toLowerCase()}/{action.name.toLowerCase()}';
 import {${
     action.response
       ? `
@@ -56,7 +56,7 @@ import {${
       : ''
   }} from '../../../models';
 
-export const Handler = async (appCtx: appContext, routeCtx: routeContext${
+export const Handler = async (appCtx: appContext, requestCtx: requestContext${
     action.payload ? `, payload: ${action.payload}` : ''
   }): Promise<HttpReturn> => {
   let result: ${action.response ? action.response : 'string'};

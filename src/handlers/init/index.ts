@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, rmdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, removeSync, writeFileSync } from 'fs-extra';
 import { extract as extractTar } from 'tar';
 import { get as getEmoji } from 'node-emoji';
 import { resolve } from 'path';
@@ -29,7 +29,7 @@ const genPkg = (name: string): string => {
     "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "prod": "NODE_ENV=production npm run build && NODE_ENV=production npm run serve",
     "serve": "node ./dist/server.js",
-    "test": "NODE_ENV=testing echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=testing echo 'Error: no test specified' && exit 1"
   },
   "author": "",
   "license": "",
@@ -40,7 +40,7 @@ const genPkg = (name: string): string => {
     "compression": "^1.7.4",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "express-validator": "^6.1.1",
+    "express-validator": "^6.1.1"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
@@ -162,6 +162,11 @@ export const handler = async (args: argv): Promise<void> => {
   const dir: string = process.env.PWD + '/' + args.name;
 
   try {
+    // 0. check the name only contains characters
+    const reg = /^[a-z0-9_-]+$/i;
+    if (!reg.test(args.name))
+      throw `app name (${args.name}) can only contain english alphanumerical characters, underscores (_) and hyphens (-)`;
+
     // 1. check if the directory already exists
     if (await existsSync(dir)) throw directoryExistsErr(args.name);
 
@@ -187,18 +192,20 @@ export const handler = async (args: argv): Promise<void> => {
 
     // 6. all done!
     console.log(
-      successMsg(args.name),
-      emojiSupport() ? ' ' + getEmoji('sunglasses') : '.'
+      successMsg(args.name) +
+        (emojiSupport() ? ' ' + getEmoji('sunglasses') : '')
     );
   } catch (e) {
     try {
-      if (await existsSync(dir)) rmdirSync(dir);
+      if (await existsSync(dir)) removeSync(dir);
     } catch (e2) {}
 
     console.log(
       chalk.bold.red('ERROR: '),
-      chalk.red(`could not create ${args.name}`),
-      emojiSupport() ? ' ' + getEmoji('ghost') + ' ' : '. ',
+      `${chalk.red(`could not create ${args.name}`)}  ${
+        emojiSupport() ? getEmoji('ghost') : ''
+      }`,
+      '\n',
       chalk.red(e)
     );
 

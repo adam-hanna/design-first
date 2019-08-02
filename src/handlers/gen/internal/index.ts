@@ -1,10 +1,4 @@
-import {
-  existsSync,
-  mkdirSync,
-  rmdirSync,
-  writeFileSync,
-  readFileSync
-} from 'fs';
+import { mkdirSync, writeFileSync } from 'fs-extra';
 import { genRouteIndex, genRouteAction } from './routes';
 import Design from '../types/design';
 

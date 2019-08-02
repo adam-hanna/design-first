@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import chalk from 'chalk';
 import Service from '../types/design/service';
 import Action from '../types/design/action';

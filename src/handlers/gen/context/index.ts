@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import chalk from 'chalk';
 import Service from '../types/design/service';
 import Action from '../types/design/action';
@@ -12,7 +12,7 @@ export const genContext = async (
     throw `could not find directory './context'. Did you '$ design-first init [name] && cd [name] && design-first gen <file>'?`;
 
   for (const service of design.services) {
-    const servicePath = `${contextDir}/route/${service.name.toLowerCase()}`;
+    const servicePath = `${contextDir}/request/${service.name.toLowerCase()}`;
     if (await !existsSync(servicePath)) await mkdirSync(servicePath);
 
     for (const action of service.actions) {
@@ -41,9 +41,9 @@ export const genRouteContext = (
   service: Service,
   action: Action
 ): string => {
-  return `import defaultRouteContext from '../../../route';
+  return `import defaultRequestContext from '../../../request';
 
-export default class extends defaultRouteContext {
+export default class extends defaultRequestContext {
 
 }`;
 };
