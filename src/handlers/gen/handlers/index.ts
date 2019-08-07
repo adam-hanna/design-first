@@ -43,7 +43,7 @@ export const genRouteHandler = (
 ): string => {
   return `import appContext from '../../../context/app';
 import { HttpReturn } from '../../../internal/utils';
-import requestContext from '../../../context/request/${service.name.toLowerCase()}/{action.name.toLowerCase()}';
+import requestContext from '../../../context/request/${service.name.toLowerCase()}/${action.name.toLowerCase()}';
 import {${
     action.response
       ? `
@@ -64,11 +64,11 @@ export const Handler = async (appCtx: appContext, requestCtx: requestContext${
   try {
     // your code, here...
 
-    return new Result(200, result);
+    return new HttpReturn(200, result);
   } catch (e) {
     console.error('err in ${action.name} action of ${service.name} service', e);
 
-    return new HttpResult(500, 'internal server error');
+    return new HttpReturn(500, 'internal server error');
   }
 }`;
 };

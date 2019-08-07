@@ -27,22 +27,18 @@ export const genAuthorization = async (
         continue;
       }
 
-      await writeFileSync(
-        actionFile,
-        genRouteAuthorization(actionPath, service, action)
-      );
+      await writeFileSync(actionFile, genRouteAuthorization(service, action));
     }
   }
 };
 
 export const genRouteAuthorization = (
-  actionPath: string,
   service: Service,
   action: Action
 ): string => {
   return `import { Request, Response } from 'express';
 import appContext from '../../../context/app';
-import requestContext from '../../../context/request/${actionPath}';
+import requestContext from '../../../context/request/${service.name.toLowerCase()}/${action.name.toLowerCase()}';
 import { HttpReturn } from '../../../internal/utils';
 ${
   action.payload
