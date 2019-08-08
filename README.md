@@ -37,10 +37,11 @@
 </div>
 
 <div align="center">
-  <strong>:sunglasses: A REST api templating engine :ghost:</strong><br>
-  With a focus on designing before building and separating concerns.<br>
+  <strong>:sunglasses: A REST api templating engine :ghost:</strong><br/>
+  With a focus on designing before building and separating concerns.<br/>
   <sub>Available for Typescript.</sub>
 </div>
+<br/>
 
 ## ALPHA SOFTWARE
 
