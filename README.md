@@ -4,8 +4,6 @@ design-first is a command line tool for helping you to build better http REST ap
 
 Spec your api, first, in `design.json` and let design-first take care of the boring work leaving you to code up the important bits.
 
-design-first separates authentication, authorization and business logic....
-
 ## Full Documentation
 
 The full documentation can be found, [here](https://adam-hanna.github.io/design-first-docs).
@@ -156,6 +154,9 @@ export default class {
 
 **./src/server.ts**
 ```typescript
+import app from './internal/app';
+import routes from './internal/routes';
+import appContext from './context/app';
 import DB from './db';
 
 // Create the db
