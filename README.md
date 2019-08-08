@@ -66,6 +66,12 @@ The full documentation can be found, [here](https://adam-hanna.github.io/design-
 
 A TODO's example, backed by postgres, with passport.js for authentication backed by a redis cache can be found, [here](https://github.com/adam-hanna/design-first-example).
 
+## Installation
+
+```bash
+$ npm install -g design-first
+```
+
 ## Quickstart
 
 ### Initialize
