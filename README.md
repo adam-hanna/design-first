@@ -4,6 +4,10 @@ design-first is a command line tool for helping you to build better http REST ap
 
 Spec your api, first, in `design.json` and let design-first take care of the boring work leaving you to code up the important bits.
 
+## ALPHA SOFTWARE
+
+**WARNING** - this software is in alpha and is subject to change. The api will be undergoing breaking changes until the release of v1.0.0
+
 ## Full Documentation
 
 The full documentation can be found, [here](https://adam-hanna.github.io/design-first-docs).

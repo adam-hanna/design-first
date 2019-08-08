@@ -1,9 +1,8 @@
 import { expect } from 'chai';
-import { Greeter } from '../src';
 
-describe('Greeter', () => {
+describe('Foo', () => {
   it('can be initialized', () => {
-    const g = Greeter('World');
-    expect(g).to.equal("Hello World");
+    const t: boolean = true;
+    expect(t).to.equal(true);
   });
 });
