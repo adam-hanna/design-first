@@ -1,6 +1,6 @@
 {
   "name": "design-first",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "",
   "main": "lib/index.js",
   "preferGlobal": "true",
@@ -21,7 +21,7 @@
     "postversion": "git push && git push --tags",
     "tar": "rm ./src/files/base.tar.gz & (cd base && tar -zcvf ../src/files/base.tar.gz ./) && rm ./lib/files/base.tar.gz && cp ./src/files/base.tar.gz ./lib/files/base.tar.gz",
     "precommit": "lint-staged",
-    "publish": "npm login && npm version patch && npm publish"
+    "publish": "npm login && npm publish"
   },
   "lint-staged": {
     "src/**/*.ts": [
