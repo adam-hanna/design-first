@@ -1,0 +1,79 @@
+{
+  "name": "design-first",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --require ts-node/register test/**/*.ts",
+    "pretty": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags",
+    "tar": "rm ./src/files/base.tar.gz & (cd base && tar -zcvf ../src/files/base.tar.gz ./) && rm ./lib/files/base.tar.gz && cp ./src/files/base.tar.gz ./lib/files/base.tar.gz",
+    "precommit": "lint-staged",
+    "publis": "npm login && npm publish"
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "npm run pretty",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adam-hanna/design-first.git"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "keywords": [
+    "api",
+    "rest",
+    "typescript"
+  ],
+  "author": "Adam Hanna <ahanna@mba2016.hbs.edu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adam-hanna/design-first/issues"
+  },
+  "homepage": "https://github.com/adam-hanna/design-first#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/chalk": "^2.2.0",
+    "@types/fs-extra": "^8.0.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.9",
+    "@types/node-emoji": "^1.8.1",
+    "@types/tar": "^4.0.3",
+    "@types/uuid": "^3.4.5",
+    "chai": "^4.2.0",
+    "husky": "^3.0.0",
+    "lint-staged": "^9.1.0",
+    "mocha": "^6.1.4",
+    "prettier": "^1.18.2",
+    "source-map-support": "^0.5.12",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "@types/yargs": "^13.0.2",
+    "chalk": "^2.4.2",
+    "detect-emoji-support": "^0.1.6",
+    "fs-extra": "^8.1.0",
+    "js-yaml": "^3.13.1",
+    "node-emoji": "^1.10.0",
+    "node-fs-extra": "^0.8.2",
+    "ora": "^3.4.0",
+    "tar": "^4.4.10",
+    "uuid": "^3.3.2",
+    "yargs": "^13.3.0"
+  }
+}

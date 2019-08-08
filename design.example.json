@@ -1,0 +1,100 @@
+{
+  "api": {
+    "name": "foo-api",
+    "description": "",
+    "baseURL": "",
+    "version": ""
+  },
+  "services": [
+    {
+      "name": "foos",
+      "path": "/foos",
+      "description": "",
+      "actions": [
+        {
+          "name": "show",
+          "description": "",
+          "method": "GET",
+          "path": "/:fooID",
+          "payload": "ShowFoo",
+          "response": "Foo"
+        },
+        {
+          "name": "list",
+          "description": "",
+          "method": "GET",
+          "path": "",
+          "payload": "ListFoos",
+          "response": "Foos"
+        },
+        {
+          "name": "update",
+          "description": "",
+          "method": "PUT",
+          "path": "/:fooID",
+          "payload": "UpdateFoo",
+          "response": "Foo"
+        },
+        {
+          "name": "create",
+          "description": "",
+          "method": "POST",
+          "path": "",
+          "payload": "CreateFoo",
+          "response": "Foo"
+        },
+        {
+          "name": "delete",
+          "description": "",
+          "method": "DELETE",
+          "path": "/:fooID"
+        }
+      ]
+    },
+    {
+      "name": "bars",
+      "description": "",
+      "path": "/bars",
+      "actions": [
+        {
+          "name": "show",
+          "description": "",
+          "method": "GET",
+          "path": "/:barID",
+          "payload": "ShowBar",
+          "response": "Boo"
+        },
+        {
+          "name": "list",
+          "description": "",
+          "method": "GET",
+          "path": "",
+          "payload": "ListBars",
+          "response": "Bars"
+        },
+        {
+          "name": "update",
+          "description": "",
+          "method": "PUT",
+          "path": "/:barID",
+          "payload": "UpdateBar",
+          "response": "Bar"
+        },
+        {
+          "name": "create",
+          "description": "",
+          "method": "POST",
+          "path": "",
+          "payload": "CreateBar",
+          "response": "Bar"
+        },
+        {
+          "name": "delete",
+          "description": "",
+          "method": "DELETE",
+          "path": "/:barID"
+        }
+      ]
+    }
+  ]
+}
