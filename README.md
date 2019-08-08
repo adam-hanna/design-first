@@ -1,6 +1,11 @@
 <p align="center"><img src="https://adam-hanna.github.io/design-first-docs/images/logo.png" alt="design-first logo" width="215" height="215"></p>
 
 <div align="center">
+  <!-- Docs -->
+  <a href="https://adam-hanna.github.io/design-first">
+    <img src="https://img.shields.io/badge/documentation-available-green.svg?style=flat" alt="documentation available">
+  </a>
+
   <!-- Stability -->
   <a href="">
     <img src="https://img.shields.io/badge/stability-alpha-red.svg?style=flat" alt="stability alpha">
@@ -183,7 +188,7 @@ export default class {
     })
   }
 
-  public async doesUserOwnFoo (todoID: string, userID: string): Promise<boolean> { ... }
+  public async doesUserOwnFoo (fooID: number, userID: string): Promise<boolean> { ... }
 
   public async showFoo (fooID: string): Promise<boolean> { ... }
 
