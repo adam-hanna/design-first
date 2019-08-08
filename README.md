@@ -2,7 +2,7 @@
 
 <div align="center">
   <!-- Docs -->
-  <a href="https://adam-hanna.github.io/design-first">
+  <a href="https://adam-hanna.github.io/design-first-docs">
     <img src="https://img.shields.io/badge/documentation-available-green.svg?style=flat" alt="documentation available">
   </a>
 
