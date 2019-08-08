@@ -1,8 +1,12 @@
 {
   "name": "design-first",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "lib/index.js",
+  "preferGlobal": "true",
+  "bin": {
+    "design-first": "lib/index.js"
+  },
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -11,13 +15,13 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
+    "prepublishOnly-bak": "npm test && npm run lint",
+    "preversion-bak": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags",
     "tar": "rm ./src/files/base.tar.gz & (cd base && tar -zcvf ../src/files/base.tar.gz ./) && rm ./lib/files/base.tar.gz && cp ./src/files/base.tar.gz ./lib/files/base.tar.gz",
     "precommit": "lint-staged",
-    "publis": "npm login && npm publish"
+    "publish": "npm login && npm publish"
   },
   "lint-staged": {
     "src/**/*.ts": [
@@ -69,6 +73,7 @@
     "detect-emoji-support": "^0.1.6",
     "fs-extra": "^8.1.0",
     "js-yaml": "^3.13.1",
+    "lodash": ">=4.17.13",
     "node-emoji": "^1.10.0",
     "node-fs-extra": "^0.8.2",
     "ora": "^3.4.0",
