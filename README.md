@@ -121,7 +121,7 @@ Edit the `design.json` file to fit your needs.
           "description": "",
           "method": "GET",
           "path": "/:fooID",
-          "payload": "ShowFoo",
+          "payload": "ShowFooPayload",
           "response": "Foo"
         },
         ...
