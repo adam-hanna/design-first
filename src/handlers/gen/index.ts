@@ -1,24 +1,27 @@
+import chalk from 'chalk';
 import {
   existsSync,
-  removeSync,
-  writeFileSync,
+  moveSync,
   readFileSync,
-  moveSync
+  removeSync,
+  writeFileSync
 } from 'fs-extra';
-import { resolve } from 'path';
 import { get as getEmoji } from 'node-emoji';
-import chalk from 'chalk';
 import ora, { Ora } from 'ora';
+import { resolve } from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import Design from './types/design';
-import { genInternal } from './internal';
 import { genAuthentication } from './authentication';
 import { genAuthorization } from './authorization';
 import { genContext } from './context';
 import { genHandlers } from './handlers';
+import { genInternal } from './internal';
 import { genMiddleware } from './middleware';
+import Design from './types/design';
+
+// tslint:disable-next-line:no-var-requires
 const emojiSupport = require('detect-emoji-support');
 
+// tslint:disable-next-line:class-name
 export class argv {
   constructor(public file: string) {}
 }
@@ -37,24 +40,29 @@ export const handler = async (args: argv): Promise<void> => {
 
   try {
     // 1. check if design file exists
-    if (await !existsSync(designFile))
-      throw `could not open ${designFile}. File does not exists`;
+    if (await !existsSync(designFile)) {
+      throw new Error(`could not open ${designFile}. File does not exists`);
+    }
 
     // 2. load design file into object
-    let design: Design = Object.assign(
+    const design: Design = Object.assign(
       new Design(),
       JSON.parse(await readFileSync(designFile).toString())
     );
-    let errors: string[] = design.Validate();
-    if (errors && errors.length > 0)
+    const errors: string[] = design.Validate();
+    if (errors && errors.length > 0) {
       throw errors.map((error: string) => `${error}\n`);
+    }
 
     // 3. generate the temporary 'internal' files
     await genInternal(tmpDir, design);
 
     // 4. remove the existing internal route files and copy over the new ones
-    if (await !existsSync(internalDir))
-      throw `could not find directory './internal'. Did you '$ design-first init [name] && cd [name] && design-first gen <file>'?`;
+    if (await !existsSync(internalDir)) {
+      throw new Error(
+        "could not find directory './internal'. Did you '$ design-first init [name] && cd [name] && design-first gen <file>'?"
+      );
+    }
 
     await moveSync(`${tmpDir}/routes/`, `${internalDir}/routes/`, {
       overwrite: true
@@ -98,7 +106,9 @@ export const handler = async (args: argv): Promise<void> => {
     exit = 1;
   } finally {
     try {
-      if (await existsSync(tmpDir)) removeSync(tmpDir);
+      if (await existsSync(tmpDir)) {
+        removeSync(tmpDir);
+      }
     } catch (e) {
       console.log(
         chalk.bold.red('ERROR: '),

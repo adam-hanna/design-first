@@ -1,12 +1,62 @@
-# design-first
+<p align="center"><img src="https://adam-hanna.github.io/design-first-docs/images/logo.png" alt="design-first logo" width="215" height="215"></p>
 
-design-first is a command line tool for helping you to build better http REST api's with Typescript.
+<div align="center">
+  <!-- Docs -->
+  <a href="https://adam-hanna.github.io/design-first-docs">
+    <img src="https://img.shields.io/badge/documentation-available-green.svg?style=flat" alt="documentation available">
+  </a>
 
-Spec your api, first, in `design.json` and let design-first take care of the boring work leaving you to code up the important bits.
+  <!-- Stability -->
+  <a href="">
+    <img src="https://img.shields.io/badge/stability-alpha-red.svg?style=flat" alt="stability alpha">
+  </a>
+
+  <!-- Version -->
+  <a href="https://adam-hanna.github.io/design-first">
+    <img src="https://img.shields.io/github/package-json/v/adam-hanna/design-first" alt="website">
+  </a>
+
+  <!-- License -->
+  <a href="LICENSE">
+    <img src="https://img.shields.io/github/license/adam-hanna/design-first.svg" alt="LICENSE">
+  </a>
+
+  <!-- Build Status -->
+  <!--
+  <a href="https://travis-ci.org/marktext/marktext/">
+    <img src="https://travis-ci.org/marktext/marktext.svg?branch=master" alt="build">
+  </a>
+  -->
+
+  <!-- Downloads Monthly -->
+  <a href="https://www.npmjs.com/package/design-first">
+    <img src="https://img.shields.io/jsdelivr/npm/hm/design-first?label=downloads" alt="total download">
+  </a>
+
+  <!-- Downloads latest release -->
+  <!--
+  <a href="https://github.com/adam-hanna/design-first/releases/latest">
+    <img src="https://img.shields.io/github/downloads/adam-hanna/design-first/v0.0.2/total.svg" alt="latest download">
+  </a>
+  -->
+</div>
+
+<div align="center">
+  <strong>:sunglasses: A REST api templating engine :ghost:</strong><br/>
+  With a focus on designing before building and separating concerns.<br/>
+  <sub>Available for Typescript.</sub>
+</div>
+<br/>
 
 ## ALPHA SOFTWARE
 
 **WARNING** - this software is in alpha and is subject to change. The api will be undergoing breaking changes until the release of v1.0.0
+
+## About
+
+design-first is a command line tool for helping you to build better http REST api's with Typescript.
+
+Spec your api, first, in `design.json` and let design-first take care of the boring work leaving you to code up the important bits.
 
 ## Full Documentation
 
@@ -15,6 +65,12 @@ The full documentation can be found, [here](https://adam-hanna.github.io/design-
 ## Examples
 
 A TODO's example, backed by postgres, with passport.js for authentication backed by a redis cache can be found, [here](https://github.com/adam-hanna/design-first-example).
+
+## Installation
+
+```bash
+$ npm install -g design-first
+```
 
 ## Quickstart
 
@@ -65,7 +121,7 @@ Edit the `design.json` file to fit your needs.
           "description": "",
           "method": "GET",
           "path": "/:fooID",
-          "payload": "ShowFoo",
+          "payload": "ShowFooPayload",
           "response": "Foo"
         },
         ...
@@ -138,7 +194,7 @@ export default class {
     })
   }
 
-  public async doesUserOwnFoo (todoID: string, userID: string): Promise<boolean> { ... }
+  public async doesUserOwnFoo (fooID: number, userID: string): Promise<boolean> { ... }
 
   public async showFoo (fooID: string): Promise<boolean> { ... }
 
@@ -320,6 +376,11 @@ $ npm run dev
 
 ## License
 
+[**MIT**](LICENSE).
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fadam-hanna%2Fdesign-first.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fadam-hanna%2Fdesign-first?ref=badge_large)
+
+
 ```
 The MIT License (MIT)
 
@@ -343,3 +404,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
+

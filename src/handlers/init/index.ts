@@ -1,10 +1,13 @@
+import chalk from 'chalk';
 import { existsSync, mkdirSync, removeSync, writeFileSync } from 'fs-extra';
-import { extract as extractTar } from 'tar';
 import { get as getEmoji } from 'node-emoji';
 import { resolve } from 'path';
-import chalk from 'chalk';
+import { extract as extractTar } from 'tar';
+
+// tslint:disable-next-line:no-var-requires
 const emojiSupport = require('detect-emoji-support');
 
+// tslint:disable-next-line:class-name
 export class argv {
   constructor(public name: string) {}
 }
@@ -35,9 +38,9 @@ const genPkg = (name: string): string => {
   "license": "",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "class-transformer": "^0.2.3",
     "class-validator": "^0.9.1",
     "compression": "^1.7.4",
+    "design-first": "^0.1.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.1.1"
@@ -164,20 +167,25 @@ export const handler = async (args: argv): Promise<void> => {
   try {
     // 0. check the name only contains characters
     const reg = /^[a-z0-9_-]+$/i;
-    if (!reg.test(args.name))
-      throw `app name (${args.name}) can only contain english alphanumerical characters, underscores (_) and hyphens (-)`;
+    if (!reg.test(args.name)) {
+      throw new Error(
+        `app name (${args.name}) can only contain english alphanumerical characters, underscores (_) and hyphens (-)`
+      );
+    }
 
     // 1. check if the directory already exists
-    if (await existsSync(dir)) throw directoryExistsErr(args.name);
+    if (await existsSync(dir)) {
+      throw directoryExistsErr(args.name);
+    }
 
     // 2. create the directory
     await mkdirSync(dir);
 
     // 3. extract the files into the newly created directory
     await extractTar({
-      strict: true,
-      file: resolve(__dirname, '../../files/base.tar.gz'),
       cwd: dir,
+      file: resolve(__dirname, '../../files/base.tar.gz'),
+      strict: true,
       sync: true
     });
 
@@ -197,8 +205,12 @@ export const handler = async (args: argv): Promise<void> => {
     );
   } catch (e) {
     try {
-      if (await existsSync(dir)) removeSync(dir);
-    } catch (e2) {}
+      if (await existsSync(dir)) {
+        removeSync(dir);
+      }
+    } catch (e2) {
+      // ignore quietly...
+    }
 
     console.log(
       chalk.bold.red('ERROR: '),
