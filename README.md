@@ -134,7 +134,7 @@ Edit the `design.json` file to fit your needs.
 
 ### Generate
 
-Generate the scaffolding:
+Next, after editing your `design.json` file, generate the templates:
 
 ```bash
 $ design-first gen
@@ -148,17 +148,18 @@ Finally, make the necessary changes to the auto-generated files.
 
 **./src/models/foos/index.ts**
 ```typescript
+import { RequestPayload, MalformedPayloadError } from 'design-first';
 import { IsInt, Min } from 'class-validator';
 
 export class Foo { ... }
 
-type showFooPayloadProps = {
-  fooID: string;
-}
-
 export class ShowFooPayload {
-  constructor({ fooID }: showFooPayloadProps) {
-    this.fooID = parseInt(fooID);
+  constructor(props: RequestPayload) {
+    try {
+      this.fooID = parseInt(fooID);
+    } catch (e) {
+      throw new MalformedPayloadError("fooID must be an integer");
+    }
   }
 
   @IsInt()
@@ -321,7 +322,7 @@ export default async (
 ```typescript
 import { Request, Response } from 'express';
 import appContext from '../../../context/app';
-import requestContext from '../../../context/request/todos/show';
+import requestContext from '../../../context/request/foos/show';
 import { HttpReturn } from '../../../internal/utils';
 import { ShowTodoPayload } from '../../../models';
 
@@ -404,4 +405,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
-
