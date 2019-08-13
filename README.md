@@ -156,7 +156,7 @@ export class Foo { ... }
 export class ShowFooPayload {
   constructor(props: RequestPayload) {
     try {
-      this.fooID = parseInt(fooID);
+      this.fooID = parseInt(props.params.fooID);
     } catch (e) {
       throw new MalformedPayloadError("fooID must be an integer");
     }
