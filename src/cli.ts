@@ -35,5 +35,5 @@ require('yargs')
   .wrap(90)
   .help()
   .alias('help', 'h')
-  .version('version', '0.1.0') // the version string.
+  .version('version', '0.1.1') // the version string.
   .alias('version', 'v').argv;
