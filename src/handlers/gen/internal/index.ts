@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync } from 'fs-extra';
-import { genRouteIndex, genRouteAction } from './routes';
 import Design from '../types/design';
+import { genRouteAction, genRouteIndex } from './routes';
 
 export const genInternal = async (
   tmpDir: string,

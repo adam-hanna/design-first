@@ -1,22 +1,28 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import chalk from 'chalk';
-import Service from '../types/design/service';
-import Action from '../types/design/action';
+import { existsSync, mkdirSync, writeFileSync } from 'fs-extra';
 import Design from '../types/design';
+import Action from '../types/design/action';
+import Service from '../types/design/service';
 
 export const genAuthentication = async (
   authenticationDir: string,
   design: Design
 ): Promise<void> => {
-  if (await !existsSync(authenticationDir)) await mkdirSync(authenticationDir);
+  if (await !existsSync(authenticationDir)) {
+    await mkdirSync(authenticationDir);
+  }
 
   for (const service of design.services) {
     const servicePath = `${authenticationDir}/${service.name.toLowerCase()}`;
-    if (await !existsSync(servicePath)) await mkdirSync(servicePath);
+    if (await !existsSync(servicePath)) {
+      await mkdirSync(servicePath);
+    }
 
     for (const action of service.actions) {
       const actionPath = `${servicePath}/${action.name.toLowerCase()}`;
-      if (await !existsSync(actionPath)) await mkdirSync(actionPath);
+      if (await !existsSync(actionPath)) {
+        await mkdirSync(actionPath);
+      }
 
       const actionFile = `${actionPath}/index.ts`;
       if (await existsSync(actionFile)) {

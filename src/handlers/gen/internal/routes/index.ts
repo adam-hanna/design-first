@@ -1,6 +1,6 @@
-import Service from '../../types/design/service';
-import Action from '../../types/design/action';
 import { capitalize } from '../../../../utils';
+import Action from '../../types/design/action';
+import Service from '../../types/design/service';
 
 export const genRouteAction = (service: Service, action: Action): string => {
   const actionPath = `${service.name.toLowerCase()}/${action.name.toLowerCase()}`;
@@ -12,10 +12,10 @@ export const genRouteAction = (service: Service, action: Action): string => {
  */
 
 import { Request, Response } from 'express';
+import { RequestPayload, ValidatePayload, MalformedPayloadError, HttpReturn } from 'design-first';
 import app from '../../../app';
 import appContext from '../../../../context/app';
 import requestContext from '../../../../context/request/${actionPath}';
-import { Validate, HttpReturn } from '../../../utils';
 import authenticate from '../../../../authentication/${actionPath}';
 import authorize from '../../../../authorization/${actionPath}';
 import { Handler } from '../../../../handlers/${actionPath}';
@@ -32,8 +32,10 @@ export default async (req: Request, res: Response): Promise<void> => {
     ${
       action.payload
         ? `
-    let payload: ${action.payload} = new ${action.payload}(Object.assign({}, req.body, req.query, req.params));
-    const validationErr: string | void = await Validate(${action.payload}, payload);
+
+    let payload: ${action.payload} = new ${action.payload}(new RequestPayload(req.body, req.query, req.params));
+
+    const validationErr: string | void = await ValidatePayload(payload);
     if (validationErr) {
       res.status(400).send(validationErr);
       return
@@ -62,6 +64,11 @@ export default async (req: Request, res: Response): Promise<void> => {
     })
     res.status(result.status).send(result.body);
   } catch (e) {
+    if (e instanceof MalformedPayloadError) {
+      res.status(400).send(e.message);
+      return
+    }
+
     // TODO: add logging, here?
     res.status(500).send('internal server error');
     return
