@@ -43,9 +43,9 @@ export const genRouteAuthentication = (
   action: Action
 ): string => {
   return `import { Request, Response } from 'express';
+import { HttpReturn } from 'design-first';
 import appContext from '../../../context/app';
 import requestContext from '../../../context/request/${service.name.toLowerCase()}/${action.name.toLowerCase()}';
-import { HttpReturn } from '../../../internal/utils';
 ${
   action.payload
     ? `import { ${action.payload} } from '../../../models';
